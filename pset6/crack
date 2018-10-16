@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+import sys
+import crypt
+import time
+import string
+
+# validate command line args
+if len(sys.argv) != 2:
+    print ("Usage python crack.py [hash]")
+    sys.exit(1)
+
+# slice first two characters off arg[1] aka hash
+salt = sys.argv[1][:2]
+
+# dict for ints
+ints = {"i": 0, "j": 0, "k": 0, "l": 0}
+
+word = [0, 0, 0, 0]
+chars = string.ascii_letters
+    
+def main():
+
+    while word[3] != "Z":
+        test(generator(word))
+
+def generator(word):
+
+    if word[2] == chars[- 1]:
+        word[3] = chars[ints["l"]]
+        ints["l"] += 1
+        ints["k"] = 0     
+        ints["j"] = 0
+        ints["i"] = 0
+        word[0] = chars[ints["i"]]
+        word[1] = chars[ints["j"]]
+        word[2] = chars[ints["k"]]
+        ints["k"] += 1
+    if word[1] == chars[- 1]:
+        word[2] = chars[ints["k"]]
+        ints["k"] += 1       
+        ints["j"] = 0
+        ints["i"] = 0
+        word[0] = chars[ints["i"]]
+        word[1] = chars[ints["j"]]
+        ints["j"] += 1
+    if word[0] == chars[- 1]:
+        word[1] = chars[ints["j"]]
+        ints["j"] += 1
+        ints["i"] = 0
+        word[0] = chars[ints["i"]]
+        ints["i"] += 1
+    else:
+        word[0] = chars[ints["i"]]
+        ints["i"] += 1
+    return word
+
+def test(word):
+    x = "".join(word[:word.index(0)])
+    if crypt.crypt(x, salt) == sys.argv[1]:
+        print ("success: ", x)
+        sys.exit()
+
+if __name__== "__main__":
+    main()

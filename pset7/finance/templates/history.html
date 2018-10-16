@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+    <form action="{{ url_for('history') }}" method="post">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Shares</th>
+                    <th>Price</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for stock in history %}                         <!-- for loop to display history -->
+                <tr> 
+                {% if stock.shares < 0 %}
+                    <td><span style="color:red">{{ stock.symbol }}</span></td>
+                    <td><span style="color:red">{{ stock.shares }}</span></td>
+                    <td><span style="color:red">{{ stock.price }}</span></td>
+                {% elif stock.shares > 0 %}                         <!-- color is red if negative, green if not -->
+                    <td><span style="color:green">{{ stock.symbol }}</span></td>
+                    <td><span style="color:green">{{ stock.shares }}</span></td>
+                    <td><span style="color:green">{{ stock.price }}</span></td>
+                {% endif %}
+                    <td>{{ stock.time }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    <form>
+{% endblock %}

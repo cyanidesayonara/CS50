@@ -1,0 +1,9 @@
+0.  a long-ass made-up word
+1.  it returns resource usage statistics for selected threads.
+2.  16
+3.  Passing two large structs by value ie. copying them to a function would take more time and stack space.
+4.  The for loop read characters one by one from a file until an EOF character is found. If a character is either a letter or apostrophe (') it gets 
+    appended to word. On the other hand if a character is a number or the word gets longer than LENGTH, the current word is consumed and discarded, 
+    and index is reset. If neither of the above is true we must be at the end of the word, so a '\0' character is appended. The word is then sent to check().
+5.  Using fscan alone would result in every string in the text, including ones with numbers and special characters, being compared to dictionary.
+6.  Because LENGTH nd DICTIONARY are #defined constants.

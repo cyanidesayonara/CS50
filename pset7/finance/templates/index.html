@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block body %}
+    {{ username }}
+{% endblock %}
+
+{% block main %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Shares</th>
+                    <th>Current value</th>
+                    <th>Original price</th>
+                    <th>TOTAL</th>
+                    <th>Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                <tr>
+                    <td>{{ stock.symbol }}</td>
+                    <td>{{ stock.name }}</td>
+                    <td>{{ stock.shares }}</td>         <!-- for loop to display owned stock stocks -->
+                    <td>{{ stock.price }}</td>
+                    <td>{{ stock.orig }}</td>
+                    <td>{{ stock.value }}</td>
+                    {% if stock.change < 0 %}
+                    <td><span style="color:red">{{ stock.change }}</span></td>      !-- if change is negative, color is red -->
+                    {% endif %}
+                    {% if stock.change > 0 %}                                       <!-- if change is positive, color is green -->
+                    <td><span style="color:green">{{ stock.change }}</span></td>
+                    {% endif %}
+                    {% if stock.change == 0 %}
+                    <td>{{ stock.change }}%</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5">CASH</td>
+                    <td>{{ cash }}</td>
+                    <td colspan="1"></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5"></td>
+                    <td>{{ total }}</td>
+                    <td colspan="1"></td>
+                </tr>
+                
+            </tfoot>
+        </table>
+    {% if signal != 1 %}
+    <form action="{{ url_for('buy') }}" method="post">
+        <fieldset>                                          <!-- list of owned stocks for index page -->
+            <div align="left" class="form-group">
+                <select class="form-control" name="symbol">
+                {% for stock in stocks %}
+                    <option name="">{{ stock.symbol }}</option>     <!-- list -->
+                {% endfor %}
+            </div>
+            <input class="form-control" name="shares" placeholder="Shares" type="text"/>    <!-- form -->
+            <button class="btn btn-default" type="submit">Buy</button>                  <!-- button -->
+        </fieldset>
+    </form>
+    {% endif %}
+    <form action="{{ url_for('cash') }}" method="post">
+        <fieldset>                                               <!-- add cash field for index -->
+            <div align="left" class="form-group">
+                <input class="form-control" name="cash" placeholder="Add cash" type="text"/>    <!-- form -->
+                <button class="btn btn-default" type="submit">Enter</button>                  <!-- button -->
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

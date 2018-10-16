@@ -1,0 +1,12 @@
+1.  Header file used by bmp.c (which is used by copy.c)
+2.  They specify the width of each data type (number = bits) (u = unsigned = non-negative), so the point is standardization. Works on all platforms
+3.  1, 4, 4, 2
+4.  42 4D (BM in ASCII)
+5.  bfSize is the size of the bitmap file. biSize is the number of bytes required by the structure.
+6.  It's a top-down DIB. Top left pixel is the first bit in memory.
+7.  biBitCount
+8.  If user has no permission to read or write, respectively
+9.  It means how many blocks (size in bits determined by previous param) fread will read from the file into memory. We only have one block in the file at a time (eg. 0x00)
+10. 3
+11. It changes the offset of the file pointer, to skip padding when making a copy in this case.
+12. SEEK_CUR changes pointer's current location
